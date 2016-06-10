@@ -30,6 +30,19 @@ moduletype.WEAPON_1 = 5
 moduletype.WEAPON_2 = 6
 moduletype.WEAPON_3 = 7
 
+if SERVER then
+    concommand.Add("ff_spawn_module", function(ply, cmd, args)
+        if not IsValid(ply) or not cvars.Bool("sv_cheats") then print("Sv_Cheats are not enabled!") return end
+
+        local trace = ply:GetEyeTraceNoCursor()
+
+        local mdl = ents.Create("prop_ff_module")
+        mdl:SetModuleType(args[1] or math.random(0,2))
+        mdl:SetPos(trace.HitPos + trace.HitNormal * 8)
+        mdl:Spawn()
+    end, nil, "Spawn a utility module (...<type 0-2>", FCVAR_CHEAT)
+end
+
 function ENT:SetupDataTables()
     self:NetworkVar("Int", 0, "RoomIndex")
     self:NetworkVar("Int", 1, "ModuleType")

@@ -38,8 +38,12 @@ SWEP.Secondary.Ammo         = "none"
 SWEP.AllowDelete = false
 SWEP.AllowDrop = false
 
-SWEP.COOLDOWN = 5
-SWEP.MAX_DISTANCE = 128
+//if CLIENT then
+//    CreateConVar("ff_repair_time", "5", { FCVAR_CHEAT }, "Set's the action time for repair tool (in seconds)")
+//end
+//SWEP.COOLDOWN = GetConVarNumber("ff_repair_time")
+SWEP.COOLDOWN = 5                                                                                                               //Sets the time it takes for the tool to perform an action
+SWEP.MAX_DISTANCE = 128                                                                                                         //Maximum distance the tool can reach
 SWEP.THINK_STEP = 0.1
 SWEP.nextThinkStamp = CurTime()+SWEP.THINK_STEP
 
@@ -51,14 +55,14 @@ function SWEP:SetupDataTables()
     self:NetworkVar( "Bool", 0, "UsingWelder" )
 end
 
-function SWEP:Initialize()
+function SWEP:Initialize()                                                                                                      //Sets the default values for different variables
     self:SetRepairMode(-1) 
     self:SetGreenBoxes(0) 
     self:SetBlueBoxes(0) 
     self:SetUsingWelder(false) 
 end
 
-function SWEP:SecondaryAttack()
+function SWEP:SecondaryAttack()                                                                                                 //Changes repair mode on right-click
     if SERVER then
         if self:GetRepairMode() == 0 then
             self:SetRepairMode(1) 
@@ -70,7 +74,7 @@ function SWEP:SecondaryAttack()
     end
 end
 
-function SWEP:Think()
+function SWEP:Think()                                                                                                           //Creates sparks where player is aiming
     if (CurTime()<self.nextThinkStamp) then return end
     if (self:GetUsingWelder()) then
         local trace = self.Owner:GetEyeTraceNoCursor()
@@ -87,7 +91,6 @@ end
 if SERVER then
     util.AddNetworkString( "usingWelder" )
     util.AddNetworkString( "manipulateModule" )
-    
     net.Receive( "usingWelder", function( len, ply )
         local self = ply:GetWeapon( "weapon_ff_repair_tool" ) 
         if (!self) then return end
@@ -133,7 +136,6 @@ if CLIENT then
     SWEP.manY = nil
     function SWEP:Think()
         if (CurTime()<self.nextThinkStamp) then return end
-        
         local trace = self.Owner:GetEyeTraceNoCursor()
         
         if (input.IsMouseDown( MOUSE_LEFT ) && self.Owner:GetShootPos():Distance(trace.HitPos)<self.MAX_DISTANCE) then

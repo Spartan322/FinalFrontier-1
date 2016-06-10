@@ -23,7 +23,7 @@ ENT._weapon = nil
 
 if SERVER then
     concommand.Add("ff_spawn_weapon", function(ply, cmd, args)
-        if not IsValid(ply) or not cvars.Bool("sv_cheats") then return end
+        if not IsValid(ply) or not cvars.Bool("sv_cheats") then print("Sv_Cheats are not enabled!") return end
 
         local trace = ply:GetEyeTraceNoCursor()
 
@@ -31,7 +31,7 @@ if SERVER then
         mdl:SetWeapon(args[1] or weapon.GetRandomName(), args[2] and tonumber(args[2]) or nil)
         mdl:SetPos(trace.HitPos + trace.HitNormal * 8)
         mdl:Spawn()
-    end, nil, "Spawn a weapon module", FCVAR_CHEAT)
+    end, nil, "Spawn a weapon module (...<Type> <Tier>)", FCVAR_CHEAT)
 end
 
 function ENT:SetupDataTables()

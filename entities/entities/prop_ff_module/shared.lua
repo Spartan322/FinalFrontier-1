@@ -29,6 +29,8 @@ function ENT:SetupDataTables()
     self._grid = self:NetworkTable(0, "Grid")
 end
 
+
+
 if SERVER then
     ENT._lastEffect = 0
 
