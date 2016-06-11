@@ -289,7 +289,7 @@ elseif CLIENT then
         Material("systems/lifesupport.png", "smooth"),
         Material("systems/shields.png", "smooth"),
         Material("power.png", "smooth"),
-        Material("systems/noicon.png", "smooth")
+        Material("systems/weapons.png", "smooth")
     }
 
     function ENT:IsGridLoaded()

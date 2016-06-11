@@ -40,7 +40,7 @@ _mt.Frequency = 100
 _mt.LaunchSound = "weapons/rpg/rocketfire1.wav"
 
 if CLIENT then
-    _mt.Icon = Material("systems/noicon.png", "smooth")
+    _mt.Icon = Material("systems/weapons.png", "smooth")
 end
 
 function _mt:GetMaxPower() return 0 end
