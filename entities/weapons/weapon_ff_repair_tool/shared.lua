@@ -38,11 +38,7 @@ SWEP.Secondary.Ammo         = "none"
 SWEP.AllowDelete = false
 SWEP.AllowDrop = false
 
-//if CLIENT then
-//    CreateConVar("ff_repair_time", "5", { FCVAR_CHEAT }, "Set's the action time for repair tool (in seconds)")
-//end
-//SWEP.COOLDOWN = GetConVarNumber("ff_repair_time")
-SWEP.COOLDOWN = 5                                                                                                               //Sets the time it takes for the tool to perform an action
+local ff_repair_time = CreateConVar("ff_repair_time", "5", FCVAR_CHEAT, "Set's the action time for repair tool (in seconds)")   //Sets the time it takes for the tool to perform an action
 SWEP.MAX_DISTANCE = 128                                                                                                         //Maximum distance the tool can reach
 SWEP.THINK_STEP = 0.1
 SWEP.nextThinkStamp = CurTime()+SWEP.THINK_STEP
@@ -166,7 +162,7 @@ if CLIENT then
                     self.manEntity = ent 
                     self.manX = gridx 
                     self.manY = gridy
-                    self.timestampCompleted = CurTime() + self.COOLDOWN
+                    self.timestampCompleted = CurTime() + ff_repair_time:GetFloat()
                 end
             end
         elseif (self:GetUsingWelder()) then
@@ -242,7 +238,7 @@ if CLIENT then
             local barsize = (width - 8 + barspacing) / totbars
             local bars = 10
             if (self:GetUsingWelder()) then
-                bars = math.Clamp(((CurTime()-self.timestampCompleted+self.COOLDOWN)/self.COOLDOWN) * totbars,0,totbars)
+                bars = math.Clamp(((CurTime()-self.timestampCompleted+ff_repair_time:GetFloat())/ff_repair_time:GetFloat()) * totbars,0,totbars)
             end
             
             surface.SetDrawColor(Color(100, 100, 100, 255))
